@@ -129,7 +129,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
             //清空按钮
         }else if(v==findViewById(R.id.cancel_button)){
-
+            this.name.setText("");
+            this.pass.setText("");
+            this.host.setText("");
+            this.port.setText("");
+            Toast tot = Toast.makeText(
+                    this,
+                    "填写信息已清空",
+                    Toast.LENGTH_LONG);
+            tot.show();
         }
      }
 }
