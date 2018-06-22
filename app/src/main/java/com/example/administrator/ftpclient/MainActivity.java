@@ -137,7 +137,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                          "正在跳转",
                          Toast.LENGTH_LONG);
                  tot.show();
-
+                 System.out.print("跳转起来！！！");
+                 Intent intent=new Intent(MainActivity.this,chooseActivity.class);
+                 //准备进入选择界面并且准备好参数
+                 intent.putExtra("host",host.getText().toString());
+                 intent.putExtra("user",name.getText().toString());
+                 intent.putExtra("pass",pass.getText().toString());
+                 intent.putExtra("port",Integer.parseInt(port.getText().toString()));
+                 startActivity(intent);
              }else{
                  System.out.println("处理结果函数错误分支");
                  new AlertDialog.Builder(mContext)
