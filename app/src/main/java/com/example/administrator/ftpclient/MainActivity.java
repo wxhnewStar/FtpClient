@@ -119,11 +119,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                  FTPManager manager= new FTPManager();
                  try{
                      flag=manager.connect(host,port,user,pass);
-                     System.out.println("Okokokokokkookoko连接到了");
+                     if(!flag) return flag;
+                     //连接的时候给系统服务器端设一个文件夹专门存上传的文件
+                     manager.createDirectory("/phoneData/");
                  }catch (Exception e){
                      System.out.println("开启连接出错");
                      e.printStackTrace();
                  }finally {
+                     //最后不管是否连接上了 都关闭一下
+                     try {
+                         manager.closeFTP();
+                     }catch (Exception e1){
+
+                     }
                      return flag;
                  }
          }

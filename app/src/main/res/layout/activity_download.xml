@@ -1,9 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.administrator.ftpclient.downloadActivity">
+    tools:context="com.example.administrator.ftpclient.downloadActivity"
+    android:orientation="vertical"
+    android:background="@mipmap/paper">
 
-</android.support.constraint.ConstraintLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="200dp"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="文件路径："
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="点击下方按钮查看服务端文件并下载"
+            android:id="@+id/uploadFilePath"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:orientation="horizontal">
+        <Button
+            android:id="@+id/uploadChoose"
+            android:layout_width="80dp"
+            android:layout_height="30dp"
+            android:layout_marginRight="50dp"
+            android:text="选择文件"
+            android:textSize="18dp"
+            android:layout_gravity="center"
+            android:background="@color/colorlogin_background"
+            android:textColor="@color/colorLoginEditText"/>
+        <Button
+            android:id="@+id/uploadconfirm"
+            android:layout_width="80dp"
+            android:layout_height="30dp"
+            android:text="下载文件"
+            android:textSize="18dp"
+            android:layout_gravity="center"
+            android:background="@color/colorlogin_background"
+            android:textColor="@color/colorLoginEditText"/>
+    </LinearLayout>
+</LinearLayout>

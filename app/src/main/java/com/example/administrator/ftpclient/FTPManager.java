@@ -16,7 +16,7 @@ import android.os.Environment;
 
 
 public class FTPManager {
-    FTPClient ftpClient = null;
+   public  FTPClient ftpClient = null;
 
     public FTPManager() {
         ftpClient = new FTPClient();
@@ -69,11 +69,11 @@ public class FTPManager {
     // 实现上传文件的功能
     public synchronized boolean uploadFile(String localPath, String serverPath)
             throws Exception {
-        localPath=Environment.getExternalStorageDirectory().getPath()+"/1/ftptest/test.zip";
+        ftpClient.changeWorkingDirectory("/");
         System.out.println("!!!!!!!!!!"+localPath);
         // 上传文件之前，先判断本地文件是否存在
         File localFile = new File(localPath);
-        if (!localFile.exists()) {
+            if (!localFile.exists()) {
             System.out.println("本地文件不存在");
             return false;
         }
@@ -108,6 +108,11 @@ public class FTPManager {
         ftpClient.setRestartOffset(serverSize);
         raf.seek(serverSize);
         OutputStream output = ftpClient.appendFileStream(fileName);
+            if(output==null){
+                System.out.println("这个也是不行啊~");
+        }else{
+            System.out.println("???");
+        }
         byte[] b = new byte[1024];
         int length = 0;
         while ((length = raf.read(b)) != -1) {

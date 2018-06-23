@@ -16,7 +16,7 @@ public class chooseActivity extends AppCompatActivity  implements View.OnClickLi
         setContentView(R.layout.activity_choose);
         Intent intent=getIntent();
          host=intent.getStringExtra("host");
-        user=intent.getStringExtra("uesr");
+        user=intent.getStringExtra("user");
         pass=intent.getStringExtra("pass");
         port =intent.getIntExtra("port",21);
         upload=(Button)findViewById(R.id.upload);
