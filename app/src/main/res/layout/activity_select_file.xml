@@ -4,14 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.administrator.ftpclient.selectFileActivity">
+    tools:context="com.example.administrator.ftpclient.selectFileActivity"
+    android:background="@mipmap/back3">
     <TextView
         android:id="@+id/path"
         android:layout_alignParentTop="true"
         android:layout_gravity="center_horizontal"
         android:layout_width="match_parent"
-        android:layout_height="30dp"
-        android:textSize="26dp"
+        android:layout_height="wrap_content"
+        android:textSize="15dp"
         />
     <!-- 列出当前路径下所有文件的ListView -->
     <ListView
@@ -21,7 +22,7 @@
         android:divider="#000"
         android:dividerHeight="1px"
         android:layout_below="@+id/path"
-        />]
+        />
     <!-- 返回上一级文件夹的按钮 -->
     <Button
         android:id="@+id/parent"

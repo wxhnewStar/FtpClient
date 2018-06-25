@@ -70,30 +70,24 @@ public class FTPManager {
     public synchronized boolean uploadFile(String localPath, String serverPath)
             throws Exception {
         ftpClient.changeWorkingDirectory("/");
-        System.out.println("!!!!!!!!!!"+localPath);
         // 上传文件之前，先判断本地文件是否存在
         File localFile = new File(localPath);
             if (!localFile.exists()) {
-            System.out.println("本地文件不存在");
             return false;
         }
-        System.out.println("本地文件存在，名称为：" + localFile.getName());
         createDirectory(serverPath); // 如果文件夹不存在，创建文件夹
-        System.out.println("服务器文件存放路径：" + serverPath + localFile.getName());
         String fileName = localFile.getName();
         // 如果本地文件存在，服务器文件也在，上传文件，这个方法中也包括了断点上传
         long localSize = localFile.length(); // 本地文件的长度
         FTPFile[] files = ftpClient.listFiles(fileName);
         long serverSize = 0;
         if (files.length == 0) {
-            System.out.println("服务器文件不存在");
             serverSize = 0;
         } else {
             serverSize = files[0].getSize(); // 服务器文件的长度
         }
         if (localSize <= serverSize) {
             if (ftpClient.deleteFile(fileName)) {
-                System.out.println("服务器文件存在,删除文件,开始重新上传");
                 serverSize = 0;
             }
         }
@@ -108,11 +102,6 @@ public class FTPManager {
         ftpClient.setRestartOffset(serverSize);
         raf.seek(serverSize);
         OutputStream output = ftpClient.appendFileStream(fileName);
-            if(output==null){
-                System.out.println("这个也是不行啊~");
-        }else{
-            System.out.println("???");
-        }
         byte[] b = new byte[1024];
         int length = 0;
         while ((length = raf.read(b)) != -1) {

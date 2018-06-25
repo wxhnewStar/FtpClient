@@ -8,7 +8,9 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.os.Environment;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
@@ -34,8 +36,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         //申请权限
-        verifyStoragePermissions(this);
+       //verifyStoragePermissions(this);
+        int hasReadPermission = ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        if(hasReadPermission!=PackageManager.PERMISSION_GRANTED){
+            ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},1);
+        }
        //初始化组件
        login=(Button) findViewById(R.id.login_button);
        cancel=(Button) findViewById(R.id.cancel_button);
@@ -44,37 +51,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
        name=(EditText) findViewById(R.id.login_id);
        pass=(EditText) findViewById(R.id.login_password);
        //添加点击函数
-        String num=this.getFilesDir().toString();
-        System.out.println(num);
-        File directory=new File(Environment.getExternalStorageDirectory() + "/111");
-        System.out.println("文件夹地址：" + directory.getAbsolutePath());
-        directory.mkdir();
-        System.out.println(directory.exists());
-        if(!directory.exists()){
-            boolean flag=directory.mkdir();
-            System.out.println("flag:"+flag);
-        }else {
-            System.out.println("文件夹地址：" + directory.getAbsolutePath());
-        }
        login.setOnClickListener(this);
        cancel.setOnClickListener(this);
-
-    }
-
-   // 动态申请读写权限的函数，在初始化的时候调用
-    public static void verifyStoragePermissions(Activity activity) {
-        // Check if we have write permission
-        int permission = ActivityCompat.checkSelfPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE);
-
-        if (permission != PackageManager.PERMISSION_GRANTED) {
-            // We don't have permission so prompt the user
-            ActivityCompat.requestPermissions(
-                    activity,
-                    PERMISSIONS_STORAGE,
-                    REQUEST_EXTERNAL_STORAGE
-            );
+        File directory=new File(Environment.getExternalStorageDirectory().getPath().toString()+"/1ftpData");
+        boolean  b=false;
+        if(!directory.exists()){
+            b=directory.mkdir();
         }
     }
+
 
 
 
@@ -127,9 +112,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
              String portStr=Params[1];
              String user=Params[2];
              String pass=Params[3];
-             System.out.println(Params[1]);
                  int port=21;
-                 System.out.println("进入异步函数了");
                  port = Integer.parseInt(portStr);
                  boolean flag=false;
                  FTPManager manager= new FTPManager();
@@ -138,9 +121,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                      if(!flag) return flag;
                      //连接的时候给系统服务器端设一个文件夹专门存上传的文件
                      manager.createDirectory("/phoneData/");
-                     //manager.downloadFile(Environment.getExternalStorageDirectory().getPath()+"/1/sina/","/phoneData/he.zip");
                  }catch (Exception e){
-                     System.out.println("开启连接出错");
                      e.printStackTrace();
                  }finally {
                      //最后不管是否连接上了 都关闭一下
@@ -154,15 +135,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
          }
 
          protected void onPostExecute(Boolean flag){
-             System.out.println("处理结果函数内部");
              if(flag){
-                 System.out.println("处理结果函数正确分支");
                  Toast tot = Toast.makeText(
                          mContext,
-                         "正在跳转",
+                         "登录成功",
                          Toast.LENGTH_LONG);
                  tot.show();
-                 System.out.print("跳转起来！！！");
                  Intent intent=new Intent(MainActivity.this,chooseActivity.class);
                  //准备进入选择界面并且准备好参数
                  intent.putExtra("host",host.getText().toString());
@@ -171,7 +149,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                  intent.putExtra("port",Integer.parseInt(port.getText().toString()));
                  startActivity(intent);
              }else{
-                 System.out.println("处理结果函数错误分支");
                  new AlertDialog.Builder(mContext)
                          .setTitle("提示")
                          .setMessage("抱歉，暂时无法连接Ftp服务器，请检查是否服务器是否开启以及信息是否无误！")
@@ -181,6 +158,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
              }
          }
      }
+
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if(requestCode==1){
+            if(permissions[0].equals(Manifest.permission.READ_EXTERNAL_STORAGE)&&grantResults[0]==PackageManager.PERMISSION_GRANTED){
+                System.out.println("申请权限成功");
+            }else{
+               System.out.println("申请失败");
+            }
+        }
+    }
+
 }
 
 

@@ -3,6 +3,7 @@ package com.example.administrator.ftpclient;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.icu.text.SymbolTable;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -61,14 +62,11 @@ public class selectFileActivity extends AppCompatActivity implements AdapterView
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
            if(currentFiles.get(position).isFile){
                //找好了那就返回啦
-               System.out.println("这次选中的是文件，开始返回啦");
                Intent intent=getIntent();
                intent.putExtra("filepath",currentFiles.get(position).filePath);
                selectFileActivity.this.setResult(0,intent);
                selectFileActivity.this.finish();
            }else {
-
-               System.out.println("这次选中的是文件夹，继续选择");
                String can[]=new String[5];
                can[0]=host;
                can[1]=new Integer(port).toString();
@@ -76,19 +74,6 @@ public class selectFileActivity extends AppCompatActivity implements AdapterView
                can[3]=pass;
                can[4]=currentFiles.get(position).filePath+"/";
                //在点击进入新文件夹之前记住现在的父亲路径是谁
-               if(!(currentParent.equals(""))){
-                   String  s=currentFiles.get(position).filePath+"/" ;
-                   int length=s.length();
-                   int fir=s.indexOf('/');
-                   if(fir==length-1){
-                       currentParent="";
-                   }else {
-                       s=s.substring(0, length-1);
-                       s=s.substring(0,s.lastIndexOf('/')+1);
-                       currentParent=s;
-                   }
-               }
-               //System.out.println("访问之前的父亲路径是："+currentParent);
                GetTask task=new GetTask(this);
                task.execute(can);
            }
@@ -96,7 +81,6 @@ public class selectFileActivity extends AppCompatActivity implements AdapterView
 
     @Override
     public void onClick(View view) {
-        //如果目前文件列表没有加载过且parent路径为空，说明是在最前面
         if(currentParent.equals("")&&currentFiles==null){
             new AlertDialog.Builder(this)
                     .setTitle("提示")
@@ -104,7 +88,6 @@ public class selectFileActivity extends AppCompatActivity implements AdapterView
                     .setPositiveButton("确定", null)
                     .show();
         }else{
-          //  System.out.println("返回："+currentParent);
             String portStr = new Integer(port).toString();
             String can[]=new String[5];
             can[0]=host;
@@ -132,7 +115,6 @@ public class selectFileActivity extends AppCompatActivity implements AdapterView
             FtpUtils util=new FtpUtils();
             List <wxhFile> list=null;
             int port=21;
-            System.out.println("进入异步函数了");
             port = Integer.parseInt(portStr);
             try{
                 util.connectServer(host,port,user,pass,"");
@@ -160,6 +142,7 @@ public class selectFileActivity extends AppCompatActivity implements AdapterView
                     list.remove(i);
                 }
             }
+            System.out.println("这个父亲文件夹为："+parentPath);
             System.out.println("处理结果函数内部");
             if(list==null||list.size()==0){
                 System.out.println("空文件夹或者访问出错");
@@ -171,10 +154,7 @@ public class selectFileActivity extends AppCompatActivity implements AdapterView
 
             }else{
                 System.out.println("找到了！！");
-                for(int i=0;i<list.size();i++){
-                    System.out.println("文件名字："+list.get(i).filePath+"是不是文件："+list.get(i).isFile);
-                }
-                //更新当前父亲路径以及文件list
+                //更新文件list
                 currentFiles=list;
                 //调用刷新来显示我们的列表
                 inflateListView(list,parentPath);

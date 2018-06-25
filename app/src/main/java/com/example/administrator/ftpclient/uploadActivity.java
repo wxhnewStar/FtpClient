@@ -190,9 +190,7 @@ public class uploadActivity extends AppCompatActivity implements View.OnClickLis
                     currentSize = currentSize + length;
                     if (currentSize / step != process) {
                         process = currentSize / step;
-                        if (process % 5 == 0) {
                             publishProgress(process);
-                        }
                     }
                 }
                 output.flush();
