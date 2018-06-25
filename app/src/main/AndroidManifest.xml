@@ -22,7 +22,8 @@
         </activity>
         <activity android:name=".chooseActivity" />
         <activity android:name=".uploadActivity" />
-        <activity android:name=".downloadActivity"></activity>
+        <activity android:name=".downloadActivity" />
+        <activity android:name=".selectFileActivity"></activity>
     </application>
 
 </manifest>

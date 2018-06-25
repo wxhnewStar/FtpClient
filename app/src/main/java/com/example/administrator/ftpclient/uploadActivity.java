@@ -123,6 +123,8 @@ public class uploadActivity extends AppCompatActivity implements View.OnClickLis
         super.onActivityResult(requestCode, resultCode, data);
     }
 
+
+
     class UpTask extends AsyncTask<String,Long,Boolean>{
         Context mContext;
         ProgressDialog pdialog;

@@ -28,7 +28,7 @@ public class FTPManager {
         if (ftpClient.isConnected()) {//判断是否已登陆
             ftpClient.disconnect();
         }
-        ftpClient.setDataTimeout(6000);//设置连接超时时间
+        ftpClient.setDataTimeout(3000);//设置连接超时时间
         ftpClient.setControlEncoding("utf-8");
         ftpClient.connect(host, port);
         if (FTPReply.isPositiveCompletion(ftpClient.getReplyCode())) {

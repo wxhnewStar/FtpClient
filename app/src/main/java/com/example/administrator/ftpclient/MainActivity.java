@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.AsyncTask;
+import android.os.Environment;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -15,6 +16,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import java.io.File;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     private static final int REQUEST_EXTERNAL_STORAGE = 1;
@@ -40,6 +44,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
        name=(EditText) findViewById(R.id.login_id);
        pass=(EditText) findViewById(R.id.login_password);
        //添加点击函数
+        String num=this.getFilesDir().toString();
+        System.out.println(num);
+        File directory=new File(Environment.getExternalStorageDirectory() + "/111");
+        System.out.println("文件夹地址：" + directory.getAbsolutePath());
+        directory.mkdir();
+        System.out.println(directory.exists());
+        if(!directory.exists()){
+            boolean flag=directory.mkdir();
+            System.out.println("flag:"+flag);
+        }else {
+            System.out.println("文件夹地址：" + directory.getAbsolutePath());
+        }
        login.setOnClickListener(this);
        cancel.setOnClickListener(this);
 
@@ -122,6 +138,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                      if(!flag) return flag;
                      //连接的时候给系统服务器端设一个文件夹专门存上传的文件
                      manager.createDirectory("/phoneData/");
+                     //manager.downloadFile(Environment.getExternalStorageDirectory().getPath()+"/1/sina/","/phoneData/he.zip");
                  }catch (Exception e){
                      System.out.println("开启连接出错");
                      e.printStackTrace();
@@ -166,44 +183,4 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      }
 }
 
-class test extends Thread{
-    private Context tx;
-    private  String host,user,pass;
-    private int port;
-    test(Context tx,String host,int port,String user,String pass){
-        this.tx=tx;
-        this.host=host;
-        this.pass=pass;
-        this.user=user;
-        this.port=port;
-    }
-    public void run(){
-        FTPManager manager= new FTPManager();
-        try{
-            if(manager.connect(host,port,user,pass)){
-                System.out.println("Okokokokokkookoko连接到了");
-                Toast tot = Toast.makeText(
-                        tx,
-                        "正在跳转",
-                        Toast.LENGTH_LONG);
-                tot.show();
-            }else{
-                System.out.println("不行啊不行啊");
-                new AlertDialog.Builder(tx)
-                        .setTitle("提示")
-                        .setMessage("抱歉，暂时无法连接Ftp服务器，请检查是否服务器是否开启以及信息是否无误！")
-                        .setPositiveButton("确定", null)
-                        .show();
-            }
-        }catch (Exception e){
-            System.out.println("开启连接出错");
-            System.out.println(e.getMessage());
-            e.printStackTrace();
-        }
-        try{
-            manager.uploadFile("he","/test/");
-        }catch (Exception e){
-            System.out.println("下载出错");
-        }
-    }
-}
+
