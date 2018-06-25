@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context="com.example.administrator.ftpclient.uploadActivity"
     android:orientation="vertical"
-    android:background="@mipmap/paper">
+    android:background="@mipmap/back2">
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -18,12 +18,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="文件路径："
+            android:textSize="20dp"
             />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:hint="点击下方按钮选择上传的文件"
-            android:id="@+id/uploadFilePath"/>
+            android:id="@+id/uploadFilePath"
+            android:textSize="20dp"/>
     </LinearLayout>
     <LinearLayout
         android:layout_width="wrap_content"
@@ -32,20 +34,20 @@
         android:orientation="horizontal">
         <Button
             android:id="@+id/uploadChoose"
-            android:layout_width="80dp"
+            android:layout_width="100dp"
             android:layout_height="30dp"
             android:layout_marginRight="50dp"
             android:text="选择文件"
-            android:textSize="18dp"
+            android:textSize="20dp"
             android:layout_gravity="center"
             android:background="@color/colorlogin_background"
             android:textColor="@color/colorLoginEditText"/>
         <Button
             android:id="@+id/uploadconfirm"
-            android:layout_width="80dp"
+            android:layout_width="100dp"
             android:layout_height="30dp"
             android:text="上传文件"
-            android:textSize="18dp"
+            android:textSize="20dp"
             android:layout_gravity="center"
             android:background="@color/colorlogin_background"
             android:textColor="@color/colorLoginEditText"/>

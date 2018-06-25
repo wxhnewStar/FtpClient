@@ -123,6 +123,8 @@ public class uploadActivity extends AppCompatActivity implements View.OnClickLis
         super.onActivityResult(requestCode, resultCode, data);
     }
 
+
+
     class UpTask extends AsyncTask<String,Long,Boolean>{
         Context mContext;
         ProgressDialog pdialog;
@@ -188,9 +190,7 @@ public class uploadActivity extends AppCompatActivity implements View.OnClickLis
                     currentSize = currentSize + length;
                     if (currentSize / step != process) {
                         process = currentSize / step;
-                        if (process % 5 == 0) {
                             publishProgress(process);
-                        }
                     }
                 }
                 output.flush();
